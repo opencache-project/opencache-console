@@ -58,15 +58,15 @@ def fetch_expr_for_node_id(node_id):
 def management_action():
     if request.args.get('method', 'refresh') == 'stat':
         return render_template('statistics.html', node_id=request.args.get('node', '*'), expr=request.args.get('expr', '*'))
-    result = _call_method(request.args.get('method', 'refresh'), request.args.get('node', '*'), request.args.get('expression', '*'))
+    result = _call_method(request.args.get('method', 'refresh'), request.args.get('node', '*'), request.args.get('expr', '*'))
     success = result.get('result', False)
     return render_template('result.html', mode='hide', success=success, previous=request.args.get('previous', 'management'))
 
 
 @app.route('/data', methods=['GET'])
 def ajax_data():
-    _call_method('refresh', request.args.get('node', '*'), request.args.get('expression', '*'))
-    stat = _call_method('stat', request.args.get('node', '*'), request.args.get('expression', '*'))
+    _call_method('refresh', request.args.get('node', '*'), request.args.get('expr', '*'))
+    stat = _call_method('stat', request.args.get('node', '*'), request.args.get('expr', '*'))
     return json.dumps(stat.get('result', ''))
 
 def _call_method(method, node_id='*', expr='*'):
